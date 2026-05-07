@@ -1,0 +1,66 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+
+enum Role {
+  ADMIN
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  email     String   @unique
+  password  String
+  role      Role     @default(ADMIN)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Category {
+  UPCYCLED_GOODS
+  ORGANIC
+  ZERO_WASTE
+}
+
+enum StockLabel {
+  IN_STOCK
+  BULK_AVAILABLE
+  OUT_OF_STOCK
+}
+
+model Product {
+  id           String     @id @default(cuid())
+  productCode  String     @unique
+  name         String
+  category     Category
+  description  String?
+  image        String?
+  price        Decimal    @db.Decimal(12, 2)
+  priceUnit    String?
+  stock        Int
+  stockLabel   StockLabel
+  whatsappLink String?
+  createdAt    DateTime   @default(now())
+}
+
+enum NewsStatus {
+  PUBLISHED
+  DRAFT
+}
+
+model News {
+  id        String     @id @default(cuid())
+  title     String
+  category  String
+  content   String     @db.Text
+  imageUrl  String?    
+  status    NewsStatus @default(DRAFT)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}

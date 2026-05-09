@@ -148,10 +148,16 @@ exports.Prisma.ProductScalarFieldEnum = {
 exports.Prisma.NewsScalarFieldEnum = {
   id: 'id',
   title: 'title',
-  category: 'category',
+  slug: 'slug',
   content: 'content',
+  summary: 'summary',
   imageUrl: 'imageUrl',
+  category: 'category',
+  authors: 'authors',
+  tags: 'tags',
   status: 'status',
+  visibility: 'visibility',
+  publishDate: 'publishDate',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -188,7 +194,13 @@ exports.StockLabel = exports.$Enums.StockLabel = {
 
 exports.NewsStatus = exports.$Enums.NewsStatus = {
   PUBLISHED: 'PUBLISHED',
-  DRAFT: 'DRAFT'
+  DRAFT: 'DRAFT',
+  ARCHIVED: 'ARCHIVED'
+};
+
+exports.NewsVisibility = exports.$Enums.NewsVisibility = {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE'
 };
 
 exports.Prisma.ModelName = {

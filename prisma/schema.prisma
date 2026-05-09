@@ -1,12 +1,14 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  provider        = "prisma-client-js"
+  output          = "../generated/prisma"
+  // previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
+  // url       = env("DATABASE_URL")
+  // directUrl = env("DIRECT_URL")
 }
-
 
 enum Role {
   ADMIN
@@ -52,15 +54,27 @@ model Product {
 enum NewsStatus {
   PUBLISHED
   DRAFT
+  ARCHIVED
+}
+
+enum NewsVisibility {
+  PUBLIC
+  PRIVATE
 }
 
 model News {
-  id        String     @id @default(cuid())
-  title     String
-  category  String
-  content   String     @db.Text
-  imageUrl  String?    
-  status    NewsStatus @default(DRAFT)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id          String         @id @default(cuid())
+  title       String
+  slug        String         @unique
+  content     String         @db.Text
+  summary     String?
+  imageUrl    String?
+  category    String
+  authors     String[]
+  tags        String[]
+  status      NewsStatus     @default(DRAFT)
+  visibility  NewsVisibility @default(PUBLIC)
+  publishDate DateTime?
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 }

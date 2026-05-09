@@ -1,0 +1,21 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const prisma_1 = require("@/lib/prisma");
+const news_repository_1 = require("./news.repository");
+const news_service_1 = require("./news.service");
+const news_controller_1 = require("./news.controller");
+const auth_middleware_1 = require("@/middlewares/auth.middleware");
+const upload_middleware_1 = require("@/middlewares/upload.middleware");
+const router = (0, express_1.Router)();
+const newsRepository = new news_repository_1.NewsRepository(prisma_1.prisma);
+const newsService = new news_service_1.NewsService(newsRepository);
+const newsController = new news_controller_1.NewsController(newsService);
+router.get("/", (req, res, next) => {
+    newsController.getAll(req, res, next);
+});
+router.get("/:id", newsController.getById);
+router.post("/", auth_middleware_1.authenticate, upload_middleware_1.upload.single("imageUrl"), newsController.create);
+router.patch("/:id", auth_middleware_1.authenticate, upload_middleware_1.upload.single("imageUrl"), newsController.update);
+router.delete("/:id", auth_middleware_1.authenticate, newsController.delete);
+exports.default = router;

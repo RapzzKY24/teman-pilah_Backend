@@ -16,7 +16,7 @@ const shutdown = (signal) => {
         process.exit(0);
     });
     setTimeout(() => {
-        console.error("⚠️  Forced shutdown after timeout.");
+        console.error("Forced shutdown after timeout.");
         process.exit(1);
     }, 10_000);
 };

@@ -1,13 +1,13 @@
 generator client {
-  provider        = "prisma-client-js"
-  output          = "../generated/prisma"
-  previewFeatures = ["driverAdapters"]
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+  // previewFeatures = ["driverAdapters"]
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("DATABASE_URL")
-  directUrl = env("DIRECT_URL")
+  provider = "postgresql"
+  // url       = env("DATABASE_URL")
+  // directUrl = env("DIRECT_URL")
 }
 
 enum Role {
@@ -57,18 +57,24 @@ enum NewsStatus {
   ARCHIVED
 }
 
+enum NewsVisibility {
+  PUBLIC
+  PRIVATE
+}
+
 model News {
-  id          String     @id @default(cuid())
+  id          String         @id @default(cuid())
   title       String
-  slug        String     @unique
-  content     String     @db.Text
+  slug        String         @unique
+  content     String         @db.Text
   summary     String?
   imageUrl    String?
   category    String
-  author      String     @default("Admin Teman Pilah")
+  authors     String[]
   tags        String[]
-  status      NewsStatus @default(DRAFT)
+  status      NewsStatus     @default(DRAFT)
+  visibility  NewsVisibility @default(PUBLIC)
   publishDate DateTime?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
 }

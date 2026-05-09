@@ -3,7 +3,7 @@
  * Client
 **/
 
-import * as runtime from './runtime/library.js';
+import * as runtime from './runtime/client.js';
 import $Types = runtime.Types // general types
 import $Public = runtime.Types.Public
 import $Utils = runtime.Types.Utils
@@ -66,6 +66,14 @@ export const NewsStatus: {
 
 export type NewsStatus = (typeof NewsStatus)[keyof typeof NewsStatus]
 
+
+export const NewsVisibility: {
+  PUBLIC: 'PUBLIC',
+  PRIVATE: 'PRIVATE'
+};
+
+export type NewsVisibility = (typeof NewsVisibility)[keyof typeof NewsVisibility]
+
 }
 
 export type Role = $Enums.Role
@@ -84,19 +92,25 @@ export type NewsStatus = $Enums.NewsStatus
 
 export const NewsStatus: typeof $Enums.NewsStatus
 
+export type NewsVisibility = $Enums.NewsVisibility
+
+export const NewsVisibility: typeof $Enums.NewsVisibility
+
 /**
  * ##  Prisma Client ʲˢ
  *
  * Type-safe database client for TypeScript & Node.js
  * @example
  * ```
- * const prisma = new PrismaClient()
+ * const prisma = new PrismaClient({
+ *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+ * })
  * // Fetch zero or more Users
  * const users = await prisma.user.findMany()
  * ```
  *
  *
- * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+ * Read more in our [docs](https://pris.ly/d/client).
  */
 export class PrismaClient<
   ClientOptions extends Prisma.PrismaClientOptions = Prisma.PrismaClientOptions,
@@ -111,13 +125,15 @@ export class PrismaClient<
    * Type-safe database client for TypeScript & Node.js
    * @example
    * ```
-   * const prisma = new PrismaClient()
+   * const prisma = new PrismaClient({
+   *   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL })
+   * })
    * // Fetch zero or more Users
    * const users = await prisma.user.findMany()
    * ```
    *
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client).
+   * Read more in our [docs](https://pris.ly/d/client).
    */
 
   constructor(optionsArg ?: Prisma.Subset<ClientOptions, Prisma.PrismaClientOptions>);
@@ -140,7 +156,7 @@ export class PrismaClient<
    * const result = await prisma.$executeRaw`UPDATE User SET cool = ${true} WHERE email = ${'user@email.com'};`
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $executeRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<number>;
 
@@ -152,7 +168,7 @@ export class PrismaClient<
    * const result = await prisma.$executeRawUnsafe('UPDATE User SET cool = $1 WHERE email = $2 ;', true, 'user@email.com')
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $executeRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<number>;
 
@@ -163,7 +179,7 @@ export class PrismaClient<
    * const result = await prisma.$queryRaw`SELECT * FROM User WHERE id = ${1} OR email = ${'user@email.com'};`
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $queryRaw<T = unknown>(query: TemplateStringsArray | Prisma.Sql, ...values: any[]): Prisma.PrismaPromise<T>;
 
@@ -175,7 +191,7 @@ export class PrismaClient<
    * const result = await prisma.$queryRawUnsafe('SELECT * FROM User WHERE id = $1 OR email = $2;', 1, 'user@email.com')
    * ```
    *
-   * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/raw-database-access).
+   * Read more in our [docs](https://pris.ly/d/raw-queries).
    */
   $queryRawUnsafe<T = unknown>(query: string, ...values: any[]): Prisma.PrismaPromise<T>;
 
@@ -191,12 +207,11 @@ export class PrismaClient<
    * ])
    * ```
    * 
-   * Read more in our [docs](https://www.prisma.io/docs/concepts/components/prisma-client/transactions).
+   * Read more in our [docs](https://www.prisma.io/docs/orm/prisma-client/queries/transactions).
    */
-  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
+  $transaction<P extends Prisma.PrismaPromise<any>[]>(arg: [...P], options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<runtime.Types.Utils.UnwrapTuple<P>>
 
   $transaction<R>(fn: (prisma: Omit<PrismaClient, runtime.ITXClientDenyList>) => $Utils.JsPromise<R>, options?: { maxWait?: number, timeout?: number, isolationLevel?: Prisma.TransactionIsolationLevel }): $Utils.JsPromise<R>
-
 
   $extends: $Extensions.ExtendsHook<"extends", Prisma.TypeMapCb<ClientOptions>, ExtArgs, $Utils.Call<Prisma.TypeMapCb<ClientOptions>, {
     extArgs: ExtArgs
@@ -271,14 +286,6 @@ export namespace Prisma {
   export type DecimalJsLike = runtime.DecimalJsLike
 
   /**
-   * Metrics
-   */
-  export type Metrics = runtime.Metrics
-  export type Metric<T> = runtime.Metric<T>
-  export type MetricHistogram = runtime.MetricHistogram
-  export type MetricHistogramBucket = runtime.MetricHistogramBucket
-
-  /**
   * Extensions
   */
   export import Extension = $Extensions.UserArgs
@@ -289,11 +296,12 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.19.3
-   * Query Engine version: c2990dca591cba766e3b7ef5d9e8a84796e47ab7
+   * Prisma Client JS version: 7.8.0
+   * Query Engine version: 3c6e192761c0362d496ed980de936e2f3cebcd3a
    */
   export type PrismaVersion = {
     client: string
+    engine: string
   }
 
   export const prismaVersion: PrismaVersion
@@ -680,9 +688,6 @@ export namespace Prisma {
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
 
 
-  export type Datasources = {
-    db?: Datasource
-  }
 
   interface TypeMapCb<ClientOptions = {}> extends $Utils.Fn<{extArgs: $Extensions.InternalArgs }, $Utils.Record<string, any>> {
     returns: Prisma.TypeMap<this['params']['extArgs'], ClientOptions extends { omit: infer OmitOptions } ? OmitOptions : {}>
@@ -948,14 +953,6 @@ export namespace Prisma {
   export type ErrorFormat = 'pretty' | 'colorless' | 'minimal'
   export interface PrismaClientOptions {
     /**
-     * Overwrites the datasource url from your schema.prisma file
-     */
-    datasources?: Datasources
-    /**
-     * Overwrites the datasource url from your schema.prisma file
-     */
-    datasourceUrl?: string
-    /**
      * @default "colorless"
      */
     errorFormat?: ErrorFormat
@@ -981,7 +978,7 @@ export namespace Prisma {
      *  { emit: 'stdout', level: 'error' }
      * 
      * ```
-     * Read more in our [docs](https://www.prisma.io/docs/reference/tools-and-interfaces/prisma-client/logging#the-log-option).
+     * Read more in our [docs](https://pris.ly/d/logging).
      */
     log?: (LogLevel | LogDefinition)[]
     /**
@@ -997,7 +994,11 @@ export namespace Prisma {
     /**
      * Instance of a Driver Adapter, e.g., like one provided by `@prisma/adapter-planetscale`
      */
-    adapter?: runtime.SqlDriverAdapterFactory | null
+    adapter?: runtime.SqlDriverAdapterFactory
+    /**
+     * Prisma Accelerate URL allowing the client to connect through Accelerate instead of a direct database.
+     */
+    accelerateUrl?: string
     /**
      * Global configuration for omitting model fields by default.
      * 
@@ -1013,6 +1014,22 @@ export namespace Prisma {
      * ```
      */
     omit?: Prisma.GlobalOmitConfig
+    /**
+     * SQL commenter plugins that add metadata to SQL queries as comments.
+     * Comments follow the sqlcommenter format: https://google.github.io/sqlcommenter/
+     * 
+     * @example
+     * ```
+     * const prisma = new PrismaClient({
+     *   adapter,
+     *   comments: [
+     *     traceContext(),
+     *     queryInsights(),
+     *   ],
+     * })
+     * ```
+     */
+    comments?: runtime.SqlCommenterPlugin[]
   }
   export type GlobalOmitConfig = {
     user?: UserOmit
@@ -1929,6 +1946,11 @@ export namespace Prisma {
      * Skip the first `n` Users.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Users.
+     */
     distinct?: UserScalarFieldEnum | UserScalarFieldEnum[]
   }
 
@@ -3053,6 +3075,11 @@ export namespace Prisma {
      * Skip the first `n` Products.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Products.
+     */
     distinct?: ProductScalarFieldEnum | ProductScalarFieldEnum[]
   }
 
@@ -3261,8 +3288,8 @@ export namespace Prisma {
     summary: string | null
     imageUrl: string | null
     category: string | null
-    author: string | null
     status: $Enums.NewsStatus | null
+    visibility: $Enums.NewsVisibility | null
     publishDate: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3276,8 +3303,8 @@ export namespace Prisma {
     summary: string | null
     imageUrl: string | null
     category: string | null
-    author: string | null
     status: $Enums.NewsStatus | null
+    visibility: $Enums.NewsVisibility | null
     publishDate: Date | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3291,9 +3318,10 @@ export namespace Prisma {
     summary: number
     imageUrl: number
     category: number
-    author: number
+    authors: number
     tags: number
     status: number
+    visibility: number
     publishDate: number
     createdAt: number
     updatedAt: number
@@ -3309,8 +3337,8 @@ export namespace Prisma {
     summary?: true
     imageUrl?: true
     category?: true
-    author?: true
     status?: true
+    visibility?: true
     publishDate?: true
     createdAt?: true
     updatedAt?: true
@@ -3324,8 +3352,8 @@ export namespace Prisma {
     summary?: true
     imageUrl?: true
     category?: true
-    author?: true
     status?: true
+    visibility?: true
     publishDate?: true
     createdAt?: true
     updatedAt?: true
@@ -3339,9 +3367,10 @@ export namespace Prisma {
     summary?: true
     imageUrl?: true
     category?: true
-    author?: true
+    authors?: true
     tags?: true
     status?: true
+    visibility?: true
     publishDate?: true
     createdAt?: true
     updatedAt?: true
@@ -3428,9 +3457,10 @@ export namespace Prisma {
     summary: string | null
     imageUrl: string | null
     category: string
-    author: string
+    authors: string[]
     tags: string[]
     status: $Enums.NewsStatus
+    visibility: $Enums.NewsVisibility
     publishDate: Date | null
     createdAt: Date
     updatedAt: Date
@@ -3461,9 +3491,10 @@ export namespace Prisma {
     summary?: boolean
     imageUrl?: boolean
     category?: boolean
-    author?: boolean
+    authors?: boolean
     tags?: boolean
     status?: boolean
+    visibility?: boolean
     publishDate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3477,9 +3508,10 @@ export namespace Prisma {
     summary?: boolean
     imageUrl?: boolean
     category?: boolean
-    author?: boolean
+    authors?: boolean
     tags?: boolean
     status?: boolean
+    visibility?: boolean
     publishDate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3493,9 +3525,10 @@ export namespace Prisma {
     summary?: boolean
     imageUrl?: boolean
     category?: boolean
-    author?: boolean
+    authors?: boolean
     tags?: boolean
     status?: boolean
+    visibility?: boolean
     publishDate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3509,15 +3542,16 @@ export namespace Prisma {
     summary?: boolean
     imageUrl?: boolean
     category?: boolean
-    author?: boolean
+    authors?: boolean
     tags?: boolean
     status?: boolean
+    visibility?: boolean
     publishDate?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type NewsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "summary" | "imageUrl" | "category" | "author" | "tags" | "status" | "publishDate" | "createdAt" | "updatedAt", ExtArgs["result"]["news"]>
+  export type NewsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "summary" | "imageUrl" | "category" | "authors" | "tags" | "status" | "visibility" | "publishDate" | "createdAt" | "updatedAt", ExtArgs["result"]["news"]>
 
   export type $NewsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "News"
@@ -3530,9 +3564,10 @@ export namespace Prisma {
       summary: string | null
       imageUrl: string | null
       category: string
-      author: string
+      authors: string[]
       tags: string[]
       status: $Enums.NewsStatus
+      visibility: $Enums.NewsVisibility
       publishDate: Date | null
       createdAt: Date
       updatedAt: Date
@@ -3966,9 +4001,10 @@ export namespace Prisma {
     readonly summary: FieldRef<"News", 'String'>
     readonly imageUrl: FieldRef<"News", 'String'>
     readonly category: FieldRef<"News", 'String'>
-    readonly author: FieldRef<"News", 'String'>
+    readonly authors: FieldRef<"News", 'String[]'>
     readonly tags: FieldRef<"News", 'String[]'>
     readonly status: FieldRef<"News", 'NewsStatus'>
+    readonly visibility: FieldRef<"News", 'NewsVisibility'>
     readonly publishDate: FieldRef<"News", 'DateTime'>
     readonly createdAt: FieldRef<"News", 'DateTime'>
     readonly updatedAt: FieldRef<"News", 'DateTime'>
@@ -4148,6 +4184,11 @@ export namespace Prisma {
      * Skip the first `n` News.
      */
     skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of News.
+     */
     distinct?: NewsScalarFieldEnum | NewsScalarFieldEnum[]
   }
 
@@ -4391,9 +4432,10 @@ export namespace Prisma {
     summary: 'summary',
     imageUrl: 'imageUrl',
     category: 'category',
-    author: 'author',
+    authors: 'authors',
     tags: 'tags',
     status: 'status',
+    visibility: 'visibility',
     publishDate: 'publishDate',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
@@ -4540,6 +4582,20 @@ export namespace Prisma {
    * Reference to a field of type 'NewsStatus[]'
    */
   export type ListEnumNewsStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NewsStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'NewsVisibility'
+   */
+  export type EnumNewsVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NewsVisibility'>
+    
+
+
+  /**
+   * Reference to a field of type 'NewsVisibility[]'
+   */
+  export type ListEnumNewsVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NewsVisibility[]'>
     
 
 
@@ -4722,9 +4778,10 @@ export namespace Prisma {
     summary?: StringNullableFilter<"News"> | string | null
     imageUrl?: StringNullableFilter<"News"> | string | null
     category?: StringFilter<"News"> | string
-    author?: StringFilter<"News"> | string
+    authors?: StringNullableListFilter<"News">
     tags?: StringNullableListFilter<"News">
     status?: EnumNewsStatusFilter<"News"> | $Enums.NewsStatus
+    visibility?: EnumNewsVisibilityFilter<"News"> | $Enums.NewsVisibility
     publishDate?: DateTimeNullableFilter<"News"> | Date | string | null
     createdAt?: DateTimeFilter<"News"> | Date | string
     updatedAt?: DateTimeFilter<"News"> | Date | string
@@ -4738,9 +4795,10 @@ export namespace Prisma {
     summary?: SortOrderInput | SortOrder
     imageUrl?: SortOrderInput | SortOrder
     category?: SortOrder
-    author?: SortOrder
+    authors?: SortOrder
     tags?: SortOrder
     status?: SortOrder
+    visibility?: SortOrder
     publishDate?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -4757,9 +4815,10 @@ export namespace Prisma {
     summary?: StringNullableFilter<"News"> | string | null
     imageUrl?: StringNullableFilter<"News"> | string | null
     category?: StringFilter<"News"> | string
-    author?: StringFilter<"News"> | string
+    authors?: StringNullableListFilter<"News">
     tags?: StringNullableListFilter<"News">
     status?: EnumNewsStatusFilter<"News"> | $Enums.NewsStatus
+    visibility?: EnumNewsVisibilityFilter<"News"> | $Enums.NewsVisibility
     publishDate?: DateTimeNullableFilter<"News"> | Date | string | null
     createdAt?: DateTimeFilter<"News"> | Date | string
     updatedAt?: DateTimeFilter<"News"> | Date | string
@@ -4773,9 +4832,10 @@ export namespace Prisma {
     summary?: SortOrderInput | SortOrder
     imageUrl?: SortOrderInput | SortOrder
     category?: SortOrder
-    author?: SortOrder
+    authors?: SortOrder
     tags?: SortOrder
     status?: SortOrder
+    visibility?: SortOrder
     publishDate?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -4795,9 +4855,10 @@ export namespace Prisma {
     summary?: StringNullableWithAggregatesFilter<"News"> | string | null
     imageUrl?: StringNullableWithAggregatesFilter<"News"> | string | null
     category?: StringWithAggregatesFilter<"News"> | string
-    author?: StringWithAggregatesFilter<"News"> | string
+    authors?: StringNullableListFilter<"News">
     tags?: StringNullableListFilter<"News">
     status?: EnumNewsStatusWithAggregatesFilter<"News"> | $Enums.NewsStatus
+    visibility?: EnumNewsVisibilityWithAggregatesFilter<"News"> | $Enums.NewsVisibility
     publishDate?: DateTimeNullableWithAggregatesFilter<"News"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"News"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"News"> | Date | string
@@ -4986,9 +5047,10 @@ export namespace Prisma {
     summary?: string | null
     imageUrl?: string | null
     category: string
-    author?: string
+    authors?: NewsCreateauthorsInput | string[]
     tags?: NewsCreatetagsInput | string[]
     status?: $Enums.NewsStatus
+    visibility?: $Enums.NewsVisibility
     publishDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -5002,9 +5064,10 @@ export namespace Prisma {
     summary?: string | null
     imageUrl?: string | null
     category: string
-    author?: string
+    authors?: NewsCreateauthorsInput | string[]
     tags?: NewsCreatetagsInput | string[]
     status?: $Enums.NewsStatus
+    visibility?: $Enums.NewsVisibility
     publishDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -5018,9 +5081,10 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
-    author?: StringFieldUpdateOperationsInput | string
+    authors?: NewsUpdateauthorsInput | string[]
     tags?: NewsUpdatetagsInput | string[]
     status?: EnumNewsStatusFieldUpdateOperationsInput | $Enums.NewsStatus
+    visibility?: EnumNewsVisibilityFieldUpdateOperationsInput | $Enums.NewsVisibility
     publishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5034,9 +5098,10 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
-    author?: StringFieldUpdateOperationsInput | string
+    authors?: NewsUpdateauthorsInput | string[]
     tags?: NewsUpdatetagsInput | string[]
     status?: EnumNewsStatusFieldUpdateOperationsInput | $Enums.NewsStatus
+    visibility?: EnumNewsVisibilityFieldUpdateOperationsInput | $Enums.NewsVisibility
     publishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5050,9 +5115,10 @@ export namespace Prisma {
     summary?: string | null
     imageUrl?: string | null
     category: string
-    author?: string
+    authors?: NewsCreateauthorsInput | string[]
     tags?: NewsCreatetagsInput | string[]
     status?: $Enums.NewsStatus
+    visibility?: $Enums.NewsVisibility
     publishDate?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -5066,9 +5132,10 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
-    author?: StringFieldUpdateOperationsInput | string
+    authors?: NewsUpdateauthorsInput | string[]
     tags?: NewsUpdatetagsInput | string[]
     status?: EnumNewsStatusFieldUpdateOperationsInput | $Enums.NewsStatus
+    visibility?: EnumNewsVisibilityFieldUpdateOperationsInput | $Enums.NewsVisibility
     publishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5082,9 +5149,10 @@ export namespace Prisma {
     summary?: NullableStringFieldUpdateOperationsInput | string | null
     imageUrl?: NullableStringFieldUpdateOperationsInput | string | null
     category?: StringFieldUpdateOperationsInput | string
-    author?: StringFieldUpdateOperationsInput | string
+    authors?: NewsUpdateauthorsInput | string[]
     tags?: NewsUpdatetagsInput | string[]
     status?: EnumNewsStatusFieldUpdateOperationsInput | $Enums.NewsStatus
+    visibility?: EnumNewsVisibilityFieldUpdateOperationsInput | $Enums.NewsVisibility
     publishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -5391,6 +5459,13 @@ export namespace Prisma {
     not?: NestedEnumNewsStatusFilter<$PrismaModel> | $Enums.NewsStatus
   }
 
+  export type EnumNewsVisibilityFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsVisibility | EnumNewsVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsVisibility[] | ListEnumNewsVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsVisibility[] | ListEnumNewsVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsVisibilityFilter<$PrismaModel> | $Enums.NewsVisibility
+  }
+
   export type DateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -5410,9 +5485,10 @@ export namespace Prisma {
     summary?: SortOrder
     imageUrl?: SortOrder
     category?: SortOrder
-    author?: SortOrder
+    authors?: SortOrder
     tags?: SortOrder
     status?: SortOrder
+    visibility?: SortOrder
     publishDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -5426,8 +5502,8 @@ export namespace Prisma {
     summary?: SortOrder
     imageUrl?: SortOrder
     category?: SortOrder
-    author?: SortOrder
     status?: SortOrder
+    visibility?: SortOrder
     publishDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -5441,8 +5517,8 @@ export namespace Prisma {
     summary?: SortOrder
     imageUrl?: SortOrder
     category?: SortOrder
-    author?: SortOrder
     status?: SortOrder
+    visibility?: SortOrder
     publishDate?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -5456,6 +5532,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumNewsStatusFilter<$PrismaModel>
     _max?: NestedEnumNewsStatusFilter<$PrismaModel>
+  }
+
+  export type EnumNewsVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsVisibility | EnumNewsVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsVisibility[] | ListEnumNewsVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsVisibility[] | ListEnumNewsVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.NewsVisibility
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNewsVisibilityFilter<$PrismaModel>
+    _max?: NestedEnumNewsVisibilityFilter<$PrismaModel>
   }
 
   export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
@@ -5512,8 +5598,17 @@ export namespace Prisma {
     set?: $Enums.StockLabel
   }
 
+  export type NewsCreateauthorsInput = {
+    set: string[]
+  }
+
   export type NewsCreatetagsInput = {
     set: string[]
+  }
+
+  export type NewsUpdateauthorsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type NewsUpdatetagsInput = {
@@ -5523,6 +5618,10 @@ export namespace Prisma {
 
   export type EnumNewsStatusFieldUpdateOperationsInput = {
     set?: $Enums.NewsStatus
+  }
+
+  export type EnumNewsVisibilityFieldUpdateOperationsInput = {
+    set?: $Enums.NewsVisibility
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -5750,6 +5849,13 @@ export namespace Prisma {
     not?: NestedEnumNewsStatusFilter<$PrismaModel> | $Enums.NewsStatus
   }
 
+  export type NestedEnumNewsVisibilityFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsVisibility | EnumNewsVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsVisibility[] | ListEnumNewsVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsVisibility[] | ListEnumNewsVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsVisibilityFilter<$PrismaModel> | $Enums.NewsVisibility
+  }
+
   export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -5769,6 +5875,16 @@ export namespace Prisma {
     _count?: NestedIntFilter<$PrismaModel>
     _min?: NestedEnumNewsStatusFilter<$PrismaModel>
     _max?: NestedEnumNewsStatusFilter<$PrismaModel>
+  }
+
+  export type NestedEnumNewsVisibilityWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.NewsVisibility | EnumNewsVisibilityFieldRefInput<$PrismaModel>
+    in?: $Enums.NewsVisibility[] | ListEnumNewsVisibilityFieldRefInput<$PrismaModel>
+    notIn?: $Enums.NewsVisibility[] | ListEnumNewsVisibilityFieldRefInput<$PrismaModel>
+    not?: NestedEnumNewsVisibilityWithAggregatesFilter<$PrismaModel> | $Enums.NewsVisibility
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumNewsVisibilityFilter<$PrismaModel>
+    _max?: NestedEnumNewsVisibilityFilter<$PrismaModel>
   }
 
   export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {

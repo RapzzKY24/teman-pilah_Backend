@@ -13,12 +13,25 @@ const newsService = new NewsService(newsRepository);
 const newsController = new NewsController(newsService);
 
 router.get("/", (req, res, next) => {
-  console.log("HIT: GET /api/news");
   newsController.getAll(req as any, res, next);
 });
+
 router.get("/:id", newsController.getById);
-router.post("/", authenticate, upload.single("imageUrl"), newsController.create);
-router.patch("/:id", authenticate, upload.single("imageUrl"), newsController.update);
+
+router.post(
+  "/",
+  authenticate,
+  upload.single("imageUrl"),
+  newsController.create,
+);
+
+router.patch(
+  "/:id",
+  authenticate,
+  upload.single("imageUrl"),
+  newsController.update,
+);
+
 router.delete("/:id", authenticate, newsController.delete);
 
 export default router;

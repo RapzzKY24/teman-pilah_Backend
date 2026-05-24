@@ -162,6 +162,20 @@ exports.Prisma.NewsScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.EducationContentScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  slug: 'slug',
+  overview: 'overview',
+  description: 'description',
+  thumbnail: 'thumbnail',
+  tags: 'tags',
+  publishDate: 'publishDate',
+  status: 'status',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -203,10 +217,16 @@ exports.NewsVisibility = exports.$Enums.NewsVisibility = {
   PRIVATE: 'PRIVATE'
 };
 
+exports.ContentStatus = exports.$Enums.ContentStatus = {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Product: 'Product',
-  News: 'News'
+  News: 'News',
+  EducationContent: 'EducationContent'
 };
 
 /**

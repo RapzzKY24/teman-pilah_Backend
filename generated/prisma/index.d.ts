@@ -28,6 +28,11 @@ export type Product = $Result.DefaultSelection<Prisma.$ProductPayload>
  * 
  */
 export type News = $Result.DefaultSelection<Prisma.$NewsPayload>
+/**
+ * Model EducationContent
+ * 
+ */
+export type EducationContent = $Result.DefaultSelection<Prisma.$EducationContentPayload>
 
 /**
  * Enums
@@ -74,6 +79,14 @@ export const NewsVisibility: {
 
 export type NewsVisibility = (typeof NewsVisibility)[keyof typeof NewsVisibility]
 
+
+export const ContentStatus: {
+  DRAFT: 'DRAFT',
+  PUBLISHED: 'PUBLISHED'
+};
+
+export type ContentStatus = (typeof ContentStatus)[keyof typeof ContentStatus]
+
 }
 
 export type Role = $Enums.Role
@@ -95,6 +108,10 @@ export const NewsStatus: typeof $Enums.NewsStatus
 export type NewsVisibility = $Enums.NewsVisibility
 
 export const NewsVisibility: typeof $Enums.NewsVisibility
+
+export type ContentStatus = $Enums.ContentStatus
+
+export const ContentStatus: typeof $Enums.ContentStatus
 
 /**
  * ##  Prisma Client ʲˢ
@@ -246,6 +263,16 @@ export class PrismaClient<
     * ```
     */
   get news(): Prisma.NewsDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.educationContent`: Exposes CRUD operations for the **EducationContent** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more EducationContents
+    * const educationContents = await prisma.educationContent.findMany()
+    * ```
+    */
+  get educationContent(): Prisma.EducationContentDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -682,7 +709,8 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Product: 'Product',
-    News: 'News'
+    News: 'News',
+    EducationContent: 'EducationContent'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -698,7 +726,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "product" | "news"
+      modelProps: "user" | "product" | "news" | "educationContent"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -924,6 +952,80 @@ export namespace Prisma {
           }
         }
       }
+      EducationContent: {
+        payload: Prisma.$EducationContentPayload<ExtArgs>
+        fields: Prisma.EducationContentFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.EducationContentFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationContentPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.EducationContentFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationContentPayload>
+          }
+          findFirst: {
+            args: Prisma.EducationContentFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationContentPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.EducationContentFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationContentPayload>
+          }
+          findMany: {
+            args: Prisma.EducationContentFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationContentPayload>[]
+          }
+          create: {
+            args: Prisma.EducationContentCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationContentPayload>
+          }
+          createMany: {
+            args: Prisma.EducationContentCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.EducationContentCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationContentPayload>[]
+          }
+          delete: {
+            args: Prisma.EducationContentDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationContentPayload>
+          }
+          update: {
+            args: Prisma.EducationContentUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationContentPayload>
+          }
+          deleteMany: {
+            args: Prisma.EducationContentDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.EducationContentUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.EducationContentUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationContentPayload>[]
+          }
+          upsert: {
+            args: Prisma.EducationContentUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$EducationContentPayload>
+          }
+          aggregate: {
+            args: Prisma.EducationContentAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateEducationContent>
+          }
+          groupBy: {
+            args: Prisma.EducationContentGroupByArgs<ExtArgs>
+            result: $Utils.Optional<EducationContentGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.EducationContentCountArgs<ExtArgs>
+            result: $Utils.Optional<EducationContentCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1035,6 +1137,7 @@ export namespace Prisma {
     user?: UserOmit
     product?: ProductOmit
     news?: NewsOmit
+    educationContent?: EducationContentOmit
   }
 
   /* Types for Logging */
@@ -4380,6 +4483,1080 @@ export namespace Prisma {
 
 
   /**
+   * Model EducationContent
+   */
+
+  export type AggregateEducationContent = {
+    _count: EducationContentCountAggregateOutputType | null
+    _min: EducationContentMinAggregateOutputType | null
+    _max: EducationContentMaxAggregateOutputType | null
+  }
+
+  export type EducationContentMinAggregateOutputType = {
+    id: string | null
+    title: string | null
+    slug: string | null
+    overview: string | null
+    description: string | null
+    thumbnail: string | null
+    publishDate: Date | null
+    status: $Enums.ContentStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EducationContentMaxAggregateOutputType = {
+    id: string | null
+    title: string | null
+    slug: string | null
+    overview: string | null
+    description: string | null
+    thumbnail: string | null
+    publishDate: Date | null
+    status: $Enums.ContentStatus | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type EducationContentCountAggregateOutputType = {
+    id: number
+    title: number
+    slug: number
+    overview: number
+    description: number
+    thumbnail: number
+    tags: number
+    publishDate: number
+    status: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type EducationContentMinAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    overview?: true
+    description?: true
+    thumbnail?: true
+    publishDate?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EducationContentMaxAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    overview?: true
+    description?: true
+    thumbnail?: true
+    publishDate?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type EducationContentCountAggregateInputType = {
+    id?: true
+    title?: true
+    slug?: true
+    overview?: true
+    description?: true
+    thumbnail?: true
+    tags?: true
+    publishDate?: true
+    status?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type EducationContentAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EducationContent to aggregate.
+     */
+    where?: EducationContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EducationContents to fetch.
+     */
+    orderBy?: EducationContentOrderByWithRelationInput | EducationContentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: EducationContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EducationContents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EducationContents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned EducationContents
+    **/
+    _count?: true | EducationContentCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: EducationContentMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: EducationContentMaxAggregateInputType
+  }
+
+  export type GetEducationContentAggregateType<T extends EducationContentAggregateArgs> = {
+        [P in keyof T & keyof AggregateEducationContent]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateEducationContent[P]>
+      : GetScalarType<T[P], AggregateEducationContent[P]>
+  }
+
+
+
+
+  export type EducationContentGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: EducationContentWhereInput
+    orderBy?: EducationContentOrderByWithAggregationInput | EducationContentOrderByWithAggregationInput[]
+    by: EducationContentScalarFieldEnum[] | EducationContentScalarFieldEnum
+    having?: EducationContentScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: EducationContentCountAggregateInputType | true
+    _min?: EducationContentMinAggregateInputType
+    _max?: EducationContentMaxAggregateInputType
+  }
+
+  export type EducationContentGroupByOutputType = {
+    id: string
+    title: string
+    slug: string
+    overview: string
+    description: string
+    thumbnail: string | null
+    tags: string[]
+    publishDate: Date | null
+    status: $Enums.ContentStatus
+    createdAt: Date
+    updatedAt: Date
+    _count: EducationContentCountAggregateOutputType | null
+    _min: EducationContentMinAggregateOutputType | null
+    _max: EducationContentMaxAggregateOutputType | null
+  }
+
+  type GetEducationContentGroupByPayload<T extends EducationContentGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<EducationContentGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof EducationContentGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], EducationContentGroupByOutputType[P]>
+            : GetScalarType<T[P], EducationContentGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type EducationContentSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    overview?: boolean
+    description?: boolean
+    thumbnail?: boolean
+    tags?: boolean
+    publishDate?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["educationContent"]>
+
+  export type EducationContentSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    overview?: boolean
+    description?: boolean
+    thumbnail?: boolean
+    tags?: boolean
+    publishDate?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["educationContent"]>
+
+  export type EducationContentSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    overview?: boolean
+    description?: boolean
+    thumbnail?: boolean
+    tags?: boolean
+    publishDate?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["educationContent"]>
+
+  export type EducationContentSelectScalar = {
+    id?: boolean
+    title?: boolean
+    slug?: boolean
+    overview?: boolean
+    description?: boolean
+    thumbnail?: boolean
+    tags?: boolean
+    publishDate?: boolean
+    status?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type EducationContentOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "overview" | "description" | "thumbnail" | "tags" | "publishDate" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["educationContent"]>
+
+  export type $EducationContentPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "EducationContent"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      title: string
+      slug: string
+      overview: string
+      description: string
+      thumbnail: string | null
+      tags: string[]
+      publishDate: Date | null
+      status: $Enums.ContentStatus
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["educationContent"]>
+    composites: {}
+  }
+
+  type EducationContentGetPayload<S extends boolean | null | undefined | EducationContentDefaultArgs> = $Result.GetResult<Prisma.$EducationContentPayload, S>
+
+  type EducationContentCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<EducationContentFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: EducationContentCountAggregateInputType | true
+    }
+
+  export interface EducationContentDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['EducationContent'], meta: { name: 'EducationContent' } }
+    /**
+     * Find zero or one EducationContent that matches the filter.
+     * @param {EducationContentFindUniqueArgs} args - Arguments to find a EducationContent
+     * @example
+     * // Get one EducationContent
+     * const educationContent = await prisma.educationContent.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends EducationContentFindUniqueArgs>(args: SelectSubset<T, EducationContentFindUniqueArgs<ExtArgs>>): Prisma__EducationContentClient<$Result.GetResult<Prisma.$EducationContentPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one EducationContent that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {EducationContentFindUniqueOrThrowArgs} args - Arguments to find a EducationContent
+     * @example
+     * // Get one EducationContent
+     * const educationContent = await prisma.educationContent.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends EducationContentFindUniqueOrThrowArgs>(args: SelectSubset<T, EducationContentFindUniqueOrThrowArgs<ExtArgs>>): Prisma__EducationContentClient<$Result.GetResult<Prisma.$EducationContentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EducationContent that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EducationContentFindFirstArgs} args - Arguments to find a EducationContent
+     * @example
+     * // Get one EducationContent
+     * const educationContent = await prisma.educationContent.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends EducationContentFindFirstArgs>(args?: SelectSubset<T, EducationContentFindFirstArgs<ExtArgs>>): Prisma__EducationContentClient<$Result.GetResult<Prisma.$EducationContentPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first EducationContent that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EducationContentFindFirstOrThrowArgs} args - Arguments to find a EducationContent
+     * @example
+     * // Get one EducationContent
+     * const educationContent = await prisma.educationContent.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends EducationContentFindFirstOrThrowArgs>(args?: SelectSubset<T, EducationContentFindFirstOrThrowArgs<ExtArgs>>): Prisma__EducationContentClient<$Result.GetResult<Prisma.$EducationContentPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more EducationContents that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EducationContentFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all EducationContents
+     * const educationContents = await prisma.educationContent.findMany()
+     * 
+     * // Get first 10 EducationContents
+     * const educationContents = await prisma.educationContent.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const educationContentWithIdOnly = await prisma.educationContent.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends EducationContentFindManyArgs>(args?: SelectSubset<T, EducationContentFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EducationContentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a EducationContent.
+     * @param {EducationContentCreateArgs} args - Arguments to create a EducationContent.
+     * @example
+     * // Create one EducationContent
+     * const EducationContent = await prisma.educationContent.create({
+     *   data: {
+     *     // ... data to create a EducationContent
+     *   }
+     * })
+     * 
+     */
+    create<T extends EducationContentCreateArgs>(args: SelectSubset<T, EducationContentCreateArgs<ExtArgs>>): Prisma__EducationContentClient<$Result.GetResult<Prisma.$EducationContentPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many EducationContents.
+     * @param {EducationContentCreateManyArgs} args - Arguments to create many EducationContents.
+     * @example
+     * // Create many EducationContents
+     * const educationContent = await prisma.educationContent.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends EducationContentCreateManyArgs>(args?: SelectSubset<T, EducationContentCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many EducationContents and returns the data saved in the database.
+     * @param {EducationContentCreateManyAndReturnArgs} args - Arguments to create many EducationContents.
+     * @example
+     * // Create many EducationContents
+     * const educationContent = await prisma.educationContent.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many EducationContents and only return the `id`
+     * const educationContentWithIdOnly = await prisma.educationContent.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends EducationContentCreateManyAndReturnArgs>(args?: SelectSubset<T, EducationContentCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EducationContentPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a EducationContent.
+     * @param {EducationContentDeleteArgs} args - Arguments to delete one EducationContent.
+     * @example
+     * // Delete one EducationContent
+     * const EducationContent = await prisma.educationContent.delete({
+     *   where: {
+     *     // ... filter to delete one EducationContent
+     *   }
+     * })
+     * 
+     */
+    delete<T extends EducationContentDeleteArgs>(args: SelectSubset<T, EducationContentDeleteArgs<ExtArgs>>): Prisma__EducationContentClient<$Result.GetResult<Prisma.$EducationContentPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one EducationContent.
+     * @param {EducationContentUpdateArgs} args - Arguments to update one EducationContent.
+     * @example
+     * // Update one EducationContent
+     * const educationContent = await prisma.educationContent.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends EducationContentUpdateArgs>(args: SelectSubset<T, EducationContentUpdateArgs<ExtArgs>>): Prisma__EducationContentClient<$Result.GetResult<Prisma.$EducationContentPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more EducationContents.
+     * @param {EducationContentDeleteManyArgs} args - Arguments to filter EducationContents to delete.
+     * @example
+     * // Delete a few EducationContents
+     * const { count } = await prisma.educationContent.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends EducationContentDeleteManyArgs>(args?: SelectSubset<T, EducationContentDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EducationContents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EducationContentUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many EducationContents
+     * const educationContent = await prisma.educationContent.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends EducationContentUpdateManyArgs>(args: SelectSubset<T, EducationContentUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more EducationContents and returns the data updated in the database.
+     * @param {EducationContentUpdateManyAndReturnArgs} args - Arguments to update many EducationContents.
+     * @example
+     * // Update many EducationContents
+     * const educationContent = await prisma.educationContent.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more EducationContents and only return the `id`
+     * const educationContentWithIdOnly = await prisma.educationContent.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends EducationContentUpdateManyAndReturnArgs>(args: SelectSubset<T, EducationContentUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EducationContentPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one EducationContent.
+     * @param {EducationContentUpsertArgs} args - Arguments to update or create a EducationContent.
+     * @example
+     * // Update or create a EducationContent
+     * const educationContent = await prisma.educationContent.upsert({
+     *   create: {
+     *     // ... data to create a EducationContent
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the EducationContent we want to update
+     *   }
+     * })
+     */
+    upsert<T extends EducationContentUpsertArgs>(args: SelectSubset<T, EducationContentUpsertArgs<ExtArgs>>): Prisma__EducationContentClient<$Result.GetResult<Prisma.$EducationContentPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of EducationContents.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EducationContentCountArgs} args - Arguments to filter EducationContents to count.
+     * @example
+     * // Count the number of EducationContents
+     * const count = await prisma.educationContent.count({
+     *   where: {
+     *     // ... the filter for the EducationContents we want to count
+     *   }
+     * })
+    **/
+    count<T extends EducationContentCountArgs>(
+      args?: Subset<T, EducationContentCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], EducationContentCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a EducationContent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EducationContentAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends EducationContentAggregateArgs>(args: Subset<T, EducationContentAggregateArgs>): Prisma.PrismaPromise<GetEducationContentAggregateType<T>>
+
+    /**
+     * Group by EducationContent.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {EducationContentGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends EducationContentGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: EducationContentGroupByArgs['orderBy'] }
+        : { orderBy?: EducationContentGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, EducationContentGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetEducationContentGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the EducationContent model
+   */
+  readonly fields: EducationContentFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for EducationContent.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__EducationContentClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the EducationContent model
+   */
+  interface EducationContentFieldRefs {
+    readonly id: FieldRef<"EducationContent", 'String'>
+    readonly title: FieldRef<"EducationContent", 'String'>
+    readonly slug: FieldRef<"EducationContent", 'String'>
+    readonly overview: FieldRef<"EducationContent", 'String'>
+    readonly description: FieldRef<"EducationContent", 'String'>
+    readonly thumbnail: FieldRef<"EducationContent", 'String'>
+    readonly tags: FieldRef<"EducationContent", 'String[]'>
+    readonly publishDate: FieldRef<"EducationContent", 'DateTime'>
+    readonly status: FieldRef<"EducationContent", 'ContentStatus'>
+    readonly createdAt: FieldRef<"EducationContent", 'DateTime'>
+    readonly updatedAt: FieldRef<"EducationContent", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * EducationContent findUnique
+   */
+  export type EducationContentFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EducationContent
+     */
+    select?: EducationContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EducationContent
+     */
+    omit?: EducationContentOmit<ExtArgs> | null
+    /**
+     * Filter, which EducationContent to fetch.
+     */
+    where: EducationContentWhereUniqueInput
+  }
+
+  /**
+   * EducationContent findUniqueOrThrow
+   */
+  export type EducationContentFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EducationContent
+     */
+    select?: EducationContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EducationContent
+     */
+    omit?: EducationContentOmit<ExtArgs> | null
+    /**
+     * Filter, which EducationContent to fetch.
+     */
+    where: EducationContentWhereUniqueInput
+  }
+
+  /**
+   * EducationContent findFirst
+   */
+  export type EducationContentFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EducationContent
+     */
+    select?: EducationContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EducationContent
+     */
+    omit?: EducationContentOmit<ExtArgs> | null
+    /**
+     * Filter, which EducationContent to fetch.
+     */
+    where?: EducationContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EducationContents to fetch.
+     */
+    orderBy?: EducationContentOrderByWithRelationInput | EducationContentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EducationContents.
+     */
+    cursor?: EducationContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EducationContents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EducationContents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EducationContents.
+     */
+    distinct?: EducationContentScalarFieldEnum | EducationContentScalarFieldEnum[]
+  }
+
+  /**
+   * EducationContent findFirstOrThrow
+   */
+  export type EducationContentFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EducationContent
+     */
+    select?: EducationContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EducationContent
+     */
+    omit?: EducationContentOmit<ExtArgs> | null
+    /**
+     * Filter, which EducationContent to fetch.
+     */
+    where?: EducationContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EducationContents to fetch.
+     */
+    orderBy?: EducationContentOrderByWithRelationInput | EducationContentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for EducationContents.
+     */
+    cursor?: EducationContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EducationContents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EducationContents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EducationContents.
+     */
+    distinct?: EducationContentScalarFieldEnum | EducationContentScalarFieldEnum[]
+  }
+
+  /**
+   * EducationContent findMany
+   */
+  export type EducationContentFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EducationContent
+     */
+    select?: EducationContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EducationContent
+     */
+    omit?: EducationContentOmit<ExtArgs> | null
+    /**
+     * Filter, which EducationContents to fetch.
+     */
+    where?: EducationContentWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of EducationContents to fetch.
+     */
+    orderBy?: EducationContentOrderByWithRelationInput | EducationContentOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing EducationContents.
+     */
+    cursor?: EducationContentWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` EducationContents from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` EducationContents.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of EducationContents.
+     */
+    distinct?: EducationContentScalarFieldEnum | EducationContentScalarFieldEnum[]
+  }
+
+  /**
+   * EducationContent create
+   */
+  export type EducationContentCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EducationContent
+     */
+    select?: EducationContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EducationContent
+     */
+    omit?: EducationContentOmit<ExtArgs> | null
+    /**
+     * The data needed to create a EducationContent.
+     */
+    data: XOR<EducationContentCreateInput, EducationContentUncheckedCreateInput>
+  }
+
+  /**
+   * EducationContent createMany
+   */
+  export type EducationContentCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many EducationContents.
+     */
+    data: EducationContentCreateManyInput | EducationContentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EducationContent createManyAndReturn
+   */
+  export type EducationContentCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EducationContent
+     */
+    select?: EducationContentSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EducationContent
+     */
+    omit?: EducationContentOmit<ExtArgs> | null
+    /**
+     * The data used to create many EducationContents.
+     */
+    data: EducationContentCreateManyInput | EducationContentCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * EducationContent update
+   */
+  export type EducationContentUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EducationContent
+     */
+    select?: EducationContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EducationContent
+     */
+    omit?: EducationContentOmit<ExtArgs> | null
+    /**
+     * The data needed to update a EducationContent.
+     */
+    data: XOR<EducationContentUpdateInput, EducationContentUncheckedUpdateInput>
+    /**
+     * Choose, which EducationContent to update.
+     */
+    where: EducationContentWhereUniqueInput
+  }
+
+  /**
+   * EducationContent updateMany
+   */
+  export type EducationContentUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update EducationContents.
+     */
+    data: XOR<EducationContentUpdateManyMutationInput, EducationContentUncheckedUpdateManyInput>
+    /**
+     * Filter which EducationContents to update
+     */
+    where?: EducationContentWhereInput
+    /**
+     * Limit how many EducationContents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EducationContent updateManyAndReturn
+   */
+  export type EducationContentUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EducationContent
+     */
+    select?: EducationContentSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the EducationContent
+     */
+    omit?: EducationContentOmit<ExtArgs> | null
+    /**
+     * The data used to update EducationContents.
+     */
+    data: XOR<EducationContentUpdateManyMutationInput, EducationContentUncheckedUpdateManyInput>
+    /**
+     * Filter which EducationContents to update
+     */
+    where?: EducationContentWhereInput
+    /**
+     * Limit how many EducationContents to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * EducationContent upsert
+   */
+  export type EducationContentUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EducationContent
+     */
+    select?: EducationContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EducationContent
+     */
+    omit?: EducationContentOmit<ExtArgs> | null
+    /**
+     * The filter to search for the EducationContent to update in case it exists.
+     */
+    where: EducationContentWhereUniqueInput
+    /**
+     * In case the EducationContent found by the `where` argument doesn't exist, create a new EducationContent with this data.
+     */
+    create: XOR<EducationContentCreateInput, EducationContentUncheckedCreateInput>
+    /**
+     * In case the EducationContent was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<EducationContentUpdateInput, EducationContentUncheckedUpdateInput>
+  }
+
+  /**
+   * EducationContent delete
+   */
+  export type EducationContentDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EducationContent
+     */
+    select?: EducationContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EducationContent
+     */
+    omit?: EducationContentOmit<ExtArgs> | null
+    /**
+     * Filter which EducationContent to delete.
+     */
+    where: EducationContentWhereUniqueInput
+  }
+
+  /**
+   * EducationContent deleteMany
+   */
+  export type EducationContentDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which EducationContents to delete
+     */
+    where?: EducationContentWhereInput
+    /**
+     * Limit how many EducationContents to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * EducationContent without action
+   */
+  export type EducationContentDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the EducationContent
+     */
+    select?: EducationContentSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the EducationContent
+     */
+    omit?: EducationContentOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -4442,6 +5619,23 @@ export namespace Prisma {
   };
 
   export type NewsScalarFieldEnum = (typeof NewsScalarFieldEnum)[keyof typeof NewsScalarFieldEnum]
+
+
+  export const EducationContentScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    slug: 'slug',
+    overview: 'overview',
+    description: 'description',
+    thumbnail: 'thumbnail',
+    tags: 'tags',
+    publishDate: 'publishDate',
+    status: 'status',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type EducationContentScalarFieldEnum = (typeof EducationContentScalarFieldEnum)[keyof typeof EducationContentScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4596,6 +5790,20 @@ export namespace Prisma {
    * Reference to a field of type 'NewsVisibility[]'
    */
   export type ListEnumNewsVisibilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'NewsVisibility[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'ContentStatus'
+   */
+  export type EnumContentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContentStatus'>
+    
+
+
+  /**
+   * Reference to a field of type 'ContentStatus[]'
+   */
+  export type ListEnumContentStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ContentStatus[]'>
     
 
 
@@ -4862,6 +6070,88 @@ export namespace Prisma {
     publishDate?: DateTimeNullableWithAggregatesFilter<"News"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"News"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"News"> | Date | string
+  }
+
+  export type EducationContentWhereInput = {
+    AND?: EducationContentWhereInput | EducationContentWhereInput[]
+    OR?: EducationContentWhereInput[]
+    NOT?: EducationContentWhereInput | EducationContentWhereInput[]
+    id?: StringFilter<"EducationContent"> | string
+    title?: StringFilter<"EducationContent"> | string
+    slug?: StringFilter<"EducationContent"> | string
+    overview?: StringFilter<"EducationContent"> | string
+    description?: StringFilter<"EducationContent"> | string
+    thumbnail?: StringNullableFilter<"EducationContent"> | string | null
+    tags?: StringNullableListFilter<"EducationContent">
+    publishDate?: DateTimeNullableFilter<"EducationContent"> | Date | string | null
+    status?: EnumContentStatusFilter<"EducationContent"> | $Enums.ContentStatus
+    createdAt?: DateTimeFilter<"EducationContent"> | Date | string
+    updatedAt?: DateTimeFilter<"EducationContent"> | Date | string
+  }
+
+  export type EducationContentOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    overview?: SortOrder
+    description?: SortOrder
+    thumbnail?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    publishDate?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EducationContentWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    slug?: string
+    AND?: EducationContentWhereInput | EducationContentWhereInput[]
+    OR?: EducationContentWhereInput[]
+    NOT?: EducationContentWhereInput | EducationContentWhereInput[]
+    title?: StringFilter<"EducationContent"> | string
+    overview?: StringFilter<"EducationContent"> | string
+    description?: StringFilter<"EducationContent"> | string
+    thumbnail?: StringNullableFilter<"EducationContent"> | string | null
+    tags?: StringNullableListFilter<"EducationContent">
+    publishDate?: DateTimeNullableFilter<"EducationContent"> | Date | string | null
+    status?: EnumContentStatusFilter<"EducationContent"> | $Enums.ContentStatus
+    createdAt?: DateTimeFilter<"EducationContent"> | Date | string
+    updatedAt?: DateTimeFilter<"EducationContent"> | Date | string
+  }, "id" | "slug">
+
+  export type EducationContentOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    overview?: SortOrder
+    description?: SortOrder
+    thumbnail?: SortOrderInput | SortOrder
+    tags?: SortOrder
+    publishDate?: SortOrderInput | SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: EducationContentCountOrderByAggregateInput
+    _max?: EducationContentMaxOrderByAggregateInput
+    _min?: EducationContentMinOrderByAggregateInput
+  }
+
+  export type EducationContentScalarWhereWithAggregatesInput = {
+    AND?: EducationContentScalarWhereWithAggregatesInput | EducationContentScalarWhereWithAggregatesInput[]
+    OR?: EducationContentScalarWhereWithAggregatesInput[]
+    NOT?: EducationContentScalarWhereWithAggregatesInput | EducationContentScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"EducationContent"> | string
+    title?: StringWithAggregatesFilter<"EducationContent"> | string
+    slug?: StringWithAggregatesFilter<"EducationContent"> | string
+    overview?: StringWithAggregatesFilter<"EducationContent"> | string
+    description?: StringWithAggregatesFilter<"EducationContent"> | string
+    thumbnail?: StringNullableWithAggregatesFilter<"EducationContent"> | string | null
+    tags?: StringNullableListFilter<"EducationContent">
+    publishDate?: DateTimeNullableWithAggregatesFilter<"EducationContent"> | Date | string | null
+    status?: EnumContentStatusWithAggregatesFilter<"EducationContent"> | $Enums.ContentStatus
+    createdAt?: DateTimeWithAggregatesFilter<"EducationContent"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"EducationContent"> | Date | string
   }
 
   export type UserCreateInput = {
@@ -5154,6 +6444,104 @@ export namespace Prisma {
     status?: EnumNewsStatusFieldUpdateOperationsInput | $Enums.NewsStatus
     visibility?: EnumNewsVisibilityFieldUpdateOperationsInput | $Enums.NewsVisibility
     publishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EducationContentCreateInput = {
+    id?: string
+    title: string
+    slug: string
+    overview: string
+    description: string
+    thumbnail?: string | null
+    tags?: EducationContentCreatetagsInput | string[]
+    publishDate?: Date | string | null
+    status?: $Enums.ContentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EducationContentUncheckedCreateInput = {
+    id?: string
+    title: string
+    slug: string
+    overview: string
+    description: string
+    thumbnail?: string | null
+    tags?: EducationContentCreatetagsInput | string[]
+    publishDate?: Date | string | null
+    status?: $Enums.ContentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EducationContentUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    overview?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: EducationContentUpdatetagsInput | string[]
+    publishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EducationContentUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    overview?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: EducationContentUpdatetagsInput | string[]
+    publishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EducationContentCreateManyInput = {
+    id?: string
+    title: string
+    slug: string
+    overview: string
+    description: string
+    thumbnail?: string | null
+    tags?: EducationContentCreatetagsInput | string[]
+    publishDate?: Date | string | null
+    status?: $Enums.ContentStatus
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type EducationContentUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    overview?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: EducationContentUpdatetagsInput | string[]
+    publishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type EducationContentUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    slug?: StringFieldUpdateOperationsInput | string
+    overview?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    thumbnail?: NullableStringFieldUpdateOperationsInput | string | null
+    tags?: EducationContentUpdatetagsInput | string[]
+    publishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    status?: EnumContentStatusFieldUpdateOperationsInput | $Enums.ContentStatus
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -5558,6 +6946,63 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type EnumContentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContentStatus | EnumContentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContentStatus[] | ListEnumContentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContentStatus[] | ListEnumContentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContentStatusFilter<$PrismaModel> | $Enums.ContentStatus
+  }
+
+  export type EducationContentCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    overview?: SortOrder
+    description?: SortOrder
+    thumbnail?: SortOrder
+    tags?: SortOrder
+    publishDate?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EducationContentMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    overview?: SortOrder
+    description?: SortOrder
+    thumbnail?: SortOrder
+    publishDate?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EducationContentMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    slug?: SortOrder
+    overview?: SortOrder
+    description?: SortOrder
+    thumbnail?: SortOrder
+    publishDate?: SortOrder
+    status?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type EnumContentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContentStatus | EnumContentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContentStatus[] | ListEnumContentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContentStatus[] | ListEnumContentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContentStatusWithAggregatesFilter<$PrismaModel> | $Enums.ContentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumContentStatusFilter<$PrismaModel>
+    _max?: NestedEnumContentStatusFilter<$PrismaModel>
+  }
+
   export type StringFieldUpdateOperationsInput = {
     set?: string
   }
@@ -5626,6 +7071,19 @@ export namespace Prisma {
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
     set?: Date | string | null
+  }
+
+  export type EducationContentCreatetagsInput = {
+    set: string[]
+  }
+
+  export type EducationContentUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type EnumContentStatusFieldUpdateOperationsInput = {
+    set?: $Enums.ContentStatus
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -5899,6 +7357,23 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type NestedEnumContentStatusFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContentStatus | EnumContentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContentStatus[] | ListEnumContentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContentStatus[] | ListEnumContentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContentStatusFilter<$PrismaModel> | $Enums.ContentStatus
+  }
+
+  export type NestedEnumContentStatusWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.ContentStatus | EnumContentStatusFieldRefInput<$PrismaModel>
+    in?: $Enums.ContentStatus[] | ListEnumContentStatusFieldRefInput<$PrismaModel>
+    notIn?: $Enums.ContentStatus[] | ListEnumContentStatusFieldRefInput<$PrismaModel>
+    not?: NestedEnumContentStatusWithAggregatesFilter<$PrismaModel> | $Enums.ContentStatus
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumContentStatusFilter<$PrismaModel>
+    _max?: NestedEnumContentStatusFilter<$PrismaModel>
   }
 
 

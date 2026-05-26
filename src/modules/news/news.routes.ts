@@ -4,7 +4,7 @@ import { NewsRepository } from "./news.repository";
 import { NewsService } from "./news.service";
 import { NewsController } from "./news.controller";
 import { authenticate } from "@/middlewares/auth.middleware";
-import { upload } from "@/middlewares/upload.middleware";
+import { uploadNews } from "@/middlewares/upload.middleware";
 
 const router: Router = Router();
 
@@ -21,17 +21,18 @@ router.get("/:id", newsController.getById);
 router.post(
   "/",
   authenticate,
-  upload.single("imageUrl"),
+  uploadNews.single("imageUrl"),
   newsController.create,
 );
 
 router.patch(
   "/:id",
   authenticate,
-  upload.single("imageUrl"),
+  uploadNews.single("imageUrl"),
   newsController.update,
 );
 
 router.delete("/:id", authenticate, newsController.delete);
+// router.delete("/:id", newsController.delete);
 
 export default router;

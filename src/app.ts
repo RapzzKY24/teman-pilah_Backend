@@ -8,7 +8,7 @@ import { errorHandler } from "./middlewares/error.middleware";
 
 const app: Application = express();
 
-app.use(helmet());
+app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
 app.use(
   cors({
     origin: process.env.CLIENT_URL ?? "*",

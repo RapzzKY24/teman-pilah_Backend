@@ -1,4 +1,5 @@
 import { Request, Response, NextFunction } from "express";
+import { ZodError } from "zod";
 
 export class AppError extends Error {
   statusCode: number;
@@ -11,11 +12,28 @@ export class AppError extends Error {
 }
 
 export const errorHandler = (
-  err: AppError | Error,
+  err: AppError | Error | ZodError,
   req: Request,
   res: Response,
   next: NextFunction,
 ): void => {
+  if (err instanceof ZodError) {
+    const errorMessages = (err as any).errors.map((e: any) => e.message).join(", ");
+    res.status(400).json({
+      status: "error",
+      message: errorMessages,
+    });
+    return;
+  }
+
+  if (err.name === "MulterError") {
+    res.status(400).json({
+      status: "error",
+      message: `Upload error: ${err.message}`,
+    });
+    return;
+  }
+
   if (err instanceof AppError) {
     res.status(err.statusCode).json({
       status: "error",

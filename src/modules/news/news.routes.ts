@@ -4,7 +4,9 @@ import { NewsRepository } from "./news.repository";
 import { NewsService } from "./news.service";
 import { NewsController } from "./news.controller";
 import { authenticate } from "@/middlewares/auth.middleware";
-import { upload } from "@/middlewares/upload.middleware";
+import { createUpload } from "@/middlewares/upload.middleware";
+
+const upload = createUpload("news", "news");
 
 const router: Router = Router();
 

@@ -6,7 +6,9 @@ import { ProductService } from "./product.service";
 
 import { prisma } from "@/lib/prisma";
 import { authenticate } from "@/middlewares/auth.middleware";
-import { upload } from "@/middlewares/upload.middleware";
+import { createUpload } from "@/middlewares/upload.middleware";
+
+const upload = createUpload("products", "product");
 
 const router: Router = Router();
 

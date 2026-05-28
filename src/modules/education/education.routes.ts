@@ -4,7 +4,9 @@ import { EducationRepository } from "./education.repository";
 import { EducationService } from "./education.service";
 import { EducationController } from "./education.controller";
 import { authenticate } from "@/middlewares/auth.middleware";
-import { upload } from "@/middlewares/upload.middleware";
+import { createUpload } from "@/middlewares/upload.middleware";
+
+const upload = createUpload("education", "education");
 
 const router: Router = Router();
 

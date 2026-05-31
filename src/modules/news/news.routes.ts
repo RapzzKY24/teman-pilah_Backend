@@ -3,8 +3,10 @@ import { prisma } from "@/lib/prisma";
 import { NewsRepository } from "./news.repository";
 import { NewsService } from "./news.service";
 import { NewsController } from "./news.controller";
+import { createUpload } from "@/middlewares/upload.middleware";
 import { authenticate } from "@/middlewares/auth.middleware";
-import { uploadNews } from "@/middlewares/upload.middleware";
+
+const upload = createUpload("news", "news");
 
 const router: Router = Router();
 
@@ -21,18 +23,17 @@ router.get("/:id", newsController.getById);
 router.post(
   "/",
   authenticate,
-  uploadNews.single("imageUrl"),
+  upload.single("imageUrl"),
   newsController.create,
 );
 
 router.patch(
   "/:id",
   authenticate,
-  uploadNews.single("imageUrl"),
+  upload.single("imageUrl"),
   newsController.update,
 );
 
 router.delete("/:id", authenticate, newsController.delete);
-// router.delete("/:id", newsController.delete);
 
 export default router;

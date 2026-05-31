@@ -80,3 +80,23 @@ model News {
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 }
+
+model EducationContent {
+  id          String        @id @default(uuid())
+  title       String
+  slug        String        @unique
+  overview    String
+  description String
+  thumbnail   String?
+  tags        String[]
+  publishDate DateTime?
+  status      ContentStatus @default(DRAFT)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+}

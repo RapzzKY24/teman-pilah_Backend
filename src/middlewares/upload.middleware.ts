@@ -4,20 +4,16 @@ import fs from "fs";
 import { Request } from "express";
 import { AppError } from "./error.middleware";
 
+const BASE_UPLOAD_DIR: string = path.join(process.cwd(), "uploads");
 const MAX_FILE_SIZE: number = 2 * 1024 * 1024;
 const ALLOWED_TYPES: string[] = ["image/jpeg", "image/png", "image/webp"];
 
 type DestinationCallback = (error: Error | null, destination: string) => void;
 type FilenameCallback = (error: Error | null, filename: string) => void;
 
-/**
- * Membuat multer upload instance untuk folder tujuan tertentu.
- * @param folder - Subfolder di dalam 'uploads/', misal 'products' atau 'news'
- */
-function createUpload(folder: string): Multer {
-  const uploadDir: string = path.join(process.cwd(), `uploads/${folder}`);
+export function createUpload(subDir: string, prefix: string): Multer {
+  const uploadDir: string = path.join(BASE_UPLOAD_DIR, subDir);
 
-  // Pastikan folder tujuan ada
   if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
   }
@@ -37,7 +33,7 @@ function createUpload(folder: string): Multer {
     ): void => {
       const uniqueSuffix: string = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
       const ext: string = path.extname(file.originalname);
-      cb(null, `${folder}-${uniqueSuffix}${ext}`);
+      cb(null, `${prefix}-${uniqueSuffix}${ext}`);
     },
   });
 
@@ -64,7 +60,3 @@ function createUpload(folder: string): Multer {
     fileFilter,
   });
 }
-
-// Upload instance per module
-export const upload: Multer = createUpload("products");
-export const uploadNews: Multer = createUpload("news");

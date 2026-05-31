@@ -92,6 +92,8 @@ export class NewsRepository {
         status: data.status ?? NewsStatus.DRAFT,
         visibility: data.visibility ?? NewsVisibility.PUBLIC,
         publishDate: data.publishDate ?? null,
+        endDate: data.endDate ?? null,
+        partnership: data.partnership ?? null,
         imageUrl: imageUrl ?? null,
       },
     });
@@ -114,6 +116,8 @@ export class NewsRepository {
     if (data.status !== undefined) updateData.status = data.status;
     if (data.visibility !== undefined) updateData.visibility = data.visibility;
     if (data.publishDate !== undefined) updateData.publishDate = data.publishDate;
+    if (data.endDate !== undefined) updateData.endDate = data.endDate;
+    if (data.partnership !== undefined) updateData.partnership = data.partnership;
     if (imageUrl !== undefined) updateData.imageUrl = imageUrl;
 
     return this.prisma.news.update({

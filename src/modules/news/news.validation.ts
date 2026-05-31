@@ -68,6 +68,16 @@ export const createNewsSchema = z.object({
     .string()
     .optional()
     .transform((val) => (val ? new Date(val) : null)),
+
+  endDate: z
+    .string()
+    .optional()
+    .transform((val) => (val ? new Date(val) : null)),
+
+  partnership: z
+    .string()
+    .trim()
+    .optional(),
 });
 
 export const updateNewsSchema = createNewsSchema.partial();

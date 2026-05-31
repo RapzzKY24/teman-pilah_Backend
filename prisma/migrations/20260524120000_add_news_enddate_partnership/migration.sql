@@ -1,0 +1,2 @@
+ALTER TABLE "News" ADD COLUMN "endDate" TIMESTAMP(3);
+ALTER TABLE "News" ADD COLUMN "partnership" TEXT;

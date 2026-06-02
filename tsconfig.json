@@ -5,6 +5,8 @@
     "moduleResolution": "bundler",
     "types": ["node"],
 
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@domain/*": ["./src/domain/*"],

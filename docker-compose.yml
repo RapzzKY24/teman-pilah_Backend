@@ -12,7 +12,11 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-teman_pilah}"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-teman_pilah}",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -31,6 +35,14 @@ services:
     depends_on:
       db:
         condition: service_healthy
+  fe:
+    build: /root/teman-pilah_fe
+    container_name: temanpilah-fe
+    restart: unless-stopped
+    environment:
+      - NEXT_PUBLIC_API_URL=https://api.temanpilah.com
+    depends_on:
+      - app
 
 volumes:
   pgdata:

@@ -7,6 +7,7 @@ const product_service_1 = require("./product.service");
 const prisma_1 = require("@/lib/prisma");
 const auth_middleware_1 = require("@/middlewares/auth.middleware");
 const upload_middleware_1 = require("@/middlewares/upload.middleware");
+const upload = (0, upload_middleware_1.createUpload)("products", "product");
 const router = (0, express_1.Router)();
 const productRepository = new product_repository_1.ProductRepository(prisma_1.prisma);
 const productService = new product_service_1.ProductService(productRepository);
@@ -29,7 +30,7 @@ router.get("/:id", productController.getById);
  * @access  Private (Admin)
  * @body    multipart/form-data — name, category, price, stock, stockLabel, (opsional: description, priceUnit, whatsappLink, image)
  */
-router.post("/", auth_middleware_1.authenticate, upload_middleware_1.upload.single("image"), productController.create);
+router.post("/", auth_middleware_1.authenticate, upload.single("image"), productController.create);
 /**
  * @route   PATCH /api/products/:id
  * @desc    Mengupdate produk berdasarkan ID (partial update)
@@ -37,7 +38,7 @@ router.post("/", auth_middleware_1.authenticate, upload_middleware_1.upload.sing
  * @param   id - Product ID (cuid)
  * @body    multipart/form-data — field yang ingin diupdate (semua opsional)
  */
-router.patch("/:id", auth_middleware_1.authenticate, upload_middleware_1.upload.single("image"), productController.update);
+router.patch("/:id", auth_middleware_1.authenticate, upload.single("image"), productController.update);
 /**
  * @route   DELETE /api/products/:id
  * @desc    Menghapus produk berdasarkan ID secara permanen

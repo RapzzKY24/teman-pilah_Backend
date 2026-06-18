@@ -158,6 +158,8 @@ exports.Prisma.NewsScalarFieldEnum = {
   status: 'status',
   visibility: 'visibility',
   publishDate: 'publishDate',
+  endDate: 'endDate',
+  partnership: 'partnership',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };

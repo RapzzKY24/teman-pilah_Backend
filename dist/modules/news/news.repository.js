@@ -54,6 +54,8 @@ class NewsRepository {
                 status: data.status ?? news_validation_1.NewsStatus.DRAFT,
                 visibility: data.visibility ?? news_validation_1.NewsVisibility.PUBLIC,
                 publishDate: data.publishDate ?? null,
+                endDate: data.endDate ?? null,
+                partnership: data.partnership ?? null,
                 imageUrl: imageUrl ?? null,
             },
         });
@@ -62,8 +64,18 @@ class NewsRepository {
         const updateData = {};
         if (data.title !== undefined)
             updateData.title = data.title;
-        if (data.slug !== undefined)
+        if (data.slug !== undefined) {
+            const existingSlug = await this.prisma.news.findFirst({
+                where: {
+                    slug: data.slug,
+                    id: { not: id },
+                },
+            });
+            if (existingSlug) {
+                throw new error_middleware_1.AppError("Slug sudah digunakan, gunakan slug lain", 400);
+            }
             updateData.slug = data.slug;
+        }
         if (data.content !== undefined)
             updateData.content = data.content;
         if (data.summary !== undefined)
@@ -80,6 +92,10 @@ class NewsRepository {
             updateData.visibility = data.visibility;
         if (data.publishDate !== undefined)
             updateData.publishDate = data.publishDate;
+        if (data.endDate !== undefined)
+            updateData.endDate = data.endDate;
+        if (data.partnership !== undefined)
+            updateData.partnership = data.partnership;
         if (imageUrl !== undefined)
             updateData.imageUrl = imageUrl;
         return this.prisma.news.update({

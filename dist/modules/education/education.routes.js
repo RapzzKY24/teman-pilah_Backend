@@ -1,0 +1,22 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const prisma_1 = require("@/lib/prisma");
+const education_repository_1 = require("./education.repository");
+const education_service_1 = require("./education.service");
+const education_controller_1 = require("./education.controller");
+const auth_middleware_1 = require("@/middlewares/auth.middleware");
+const upload_middleware_1 = require("@/middlewares/upload.middleware");
+const upload = (0, upload_middleware_1.createUpload)("education", "education");
+const router = (0, express_1.Router)();
+const educationRepository = new education_repository_1.EducationRepository(prisma_1.prisma);
+const educationService = new education_service_1.EducationService(educationRepository);
+const educationController = new education_controller_1.EducationController(educationService);
+router.get("/", (req, res, next) => {
+    educationController.getAll(req, res, next);
+});
+router.get("/:id", educationController.getById);
+router.post("/", auth_middleware_1.authenticate, upload.single("thumbnail"), educationController.create);
+router.patch("/:id", auth_middleware_1.authenticate, upload.single("thumbnail"), educationController.update);
+router.delete("/:id", auth_middleware_1.authenticate, educationController.delete);
+exports.default = router;

@@ -75,6 +75,8 @@ model News {
   status      NewsStatus     @default(DRAFT)
   visibility  NewsVisibility @default(PUBLIC)
   publishDate DateTime?
+  endDate     DateTime?
+  partnership String?
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
 }

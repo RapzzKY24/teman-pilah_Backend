@@ -3485,6 +3485,8 @@ export namespace Prisma {
     status: $Enums.NewsStatus | null
     visibility: $Enums.NewsVisibility | null
     publishDate: Date | null
+    endDate: Date | null
+    partnership: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3500,6 +3502,8 @@ export namespace Prisma {
     status: $Enums.NewsStatus | null
     visibility: $Enums.NewsVisibility | null
     publishDate: Date | null
+    endDate: Date | null
+    partnership: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -3517,6 +3521,8 @@ export namespace Prisma {
     status: number
     visibility: number
     publishDate: number
+    endDate: number
+    partnership: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -3534,6 +3540,8 @@ export namespace Prisma {
     status?: true
     visibility?: true
     publishDate?: true
+    endDate?: true
+    partnership?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3549,6 +3557,8 @@ export namespace Prisma {
     status?: true
     visibility?: true
     publishDate?: true
+    endDate?: true
+    partnership?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -3566,6 +3576,8 @@ export namespace Prisma {
     status?: true
     visibility?: true
     publishDate?: true
+    endDate?: true
+    partnership?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -3656,6 +3668,8 @@ export namespace Prisma {
     status: $Enums.NewsStatus
     visibility: $Enums.NewsVisibility
     publishDate: Date | null
+    endDate: Date | null
+    partnership: string | null
     createdAt: Date
     updatedAt: Date
     _count: NewsCountAggregateOutputType | null
@@ -3690,6 +3704,8 @@ export namespace Prisma {
     status?: boolean
     visibility?: boolean
     publishDate?: boolean
+    endDate?: boolean
+    partnership?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["news"]>
@@ -3707,6 +3723,8 @@ export namespace Prisma {
     status?: boolean
     visibility?: boolean
     publishDate?: boolean
+    endDate?: boolean
+    partnership?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["news"]>
@@ -3724,6 +3742,8 @@ export namespace Prisma {
     status?: boolean
     visibility?: boolean
     publishDate?: boolean
+    endDate?: boolean
+    partnership?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["news"]>
@@ -3741,11 +3761,13 @@ export namespace Prisma {
     status?: boolean
     visibility?: boolean
     publishDate?: boolean
+    endDate?: boolean
+    partnership?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type NewsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "summary" | "imageUrl" | "category" | "authors" | "tags" | "status" | "visibility" | "publishDate" | "createdAt" | "updatedAt", ExtArgs["result"]["news"]>
+  export type NewsOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "slug" | "content" | "summary" | "imageUrl" | "category" | "authors" | "tags" | "status" | "visibility" | "publishDate" | "endDate" | "partnership" | "createdAt" | "updatedAt", ExtArgs["result"]["news"]>
 
   export type $NewsPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "News"
@@ -3763,6 +3785,8 @@ export namespace Prisma {
       status: $Enums.NewsStatus
       visibility: $Enums.NewsVisibility
       publishDate: Date | null
+      endDate: Date | null
+      partnership: string | null
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["news"]>
@@ -4200,6 +4224,8 @@ export namespace Prisma {
     readonly status: FieldRef<"News", 'NewsStatus'>
     readonly visibility: FieldRef<"News", 'NewsVisibility'>
     readonly publishDate: FieldRef<"News", 'DateTime'>
+    readonly endDate: FieldRef<"News", 'DateTime'>
+    readonly partnership: FieldRef<"News", 'String'>
     readonly createdAt: FieldRef<"News", 'DateTime'>
     readonly updatedAt: FieldRef<"News", 'DateTime'>
   }
@@ -6705,6 +6731,8 @@ export namespace Prisma {
     status: 'status',
     visibility: 'visibility',
     publishDate: 'publishDate',
+    endDate: 'endDate',
+    partnership: 'partnership',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -7093,6 +7121,8 @@ export namespace Prisma {
     status?: EnumNewsStatusFilter<"News"> | $Enums.NewsStatus
     visibility?: EnumNewsVisibilityFilter<"News"> | $Enums.NewsVisibility
     publishDate?: DateTimeNullableFilter<"News"> | Date | string | null
+    endDate?: DateTimeNullableFilter<"News"> | Date | string | null
+    partnership?: StringNullableFilter<"News"> | string | null
     createdAt?: DateTimeFilter<"News"> | Date | string
     updatedAt?: DateTimeFilter<"News"> | Date | string
   }
@@ -7110,6 +7140,8 @@ export namespace Prisma {
     status?: SortOrder
     visibility?: SortOrder
     publishDate?: SortOrderInput | SortOrder
+    endDate?: SortOrderInput | SortOrder
+    partnership?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -7130,6 +7162,8 @@ export namespace Prisma {
     status?: EnumNewsStatusFilter<"News"> | $Enums.NewsStatus
     visibility?: EnumNewsVisibilityFilter<"News"> | $Enums.NewsVisibility
     publishDate?: DateTimeNullableFilter<"News"> | Date | string | null
+    endDate?: DateTimeNullableFilter<"News"> | Date | string | null
+    partnership?: StringNullableFilter<"News"> | string | null
     createdAt?: DateTimeFilter<"News"> | Date | string
     updatedAt?: DateTimeFilter<"News"> | Date | string
   }, "id" | "slug">
@@ -7147,6 +7181,8 @@ export namespace Prisma {
     status?: SortOrder
     visibility?: SortOrder
     publishDate?: SortOrderInput | SortOrder
+    endDate?: SortOrderInput | SortOrder
+    partnership?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: NewsCountOrderByAggregateInput
@@ -7170,6 +7206,8 @@ export namespace Prisma {
     status?: EnumNewsStatusWithAggregatesFilter<"News"> | $Enums.NewsStatus
     visibility?: EnumNewsVisibilityWithAggregatesFilter<"News"> | $Enums.NewsVisibility
     publishDate?: DateTimeNullableWithAggregatesFilter<"News"> | Date | string | null
+    endDate?: DateTimeNullableWithAggregatesFilter<"News"> | Date | string | null
+    partnership?: StringNullableWithAggregatesFilter<"News"> | string | null
     createdAt?: DateTimeWithAggregatesFilter<"News"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"News"> | Date | string
   }
@@ -7496,6 +7534,8 @@ export namespace Prisma {
     status?: $Enums.NewsStatus
     visibility?: $Enums.NewsVisibility
     publishDate?: Date | string | null
+    endDate?: Date | string | null
+    partnership?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7513,6 +7553,8 @@ export namespace Prisma {
     status?: $Enums.NewsStatus
     visibility?: $Enums.NewsVisibility
     publishDate?: Date | string | null
+    endDate?: Date | string | null
+    partnership?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7530,6 +7572,8 @@ export namespace Prisma {
     status?: EnumNewsStatusFieldUpdateOperationsInput | $Enums.NewsStatus
     visibility?: EnumNewsVisibilityFieldUpdateOperationsInput | $Enums.NewsVisibility
     publishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    partnership?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7547,6 +7591,8 @@ export namespace Prisma {
     status?: EnumNewsStatusFieldUpdateOperationsInput | $Enums.NewsStatus
     visibility?: EnumNewsVisibilityFieldUpdateOperationsInput | $Enums.NewsVisibility
     publishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    partnership?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7564,6 +7610,8 @@ export namespace Prisma {
     status?: $Enums.NewsStatus
     visibility?: $Enums.NewsVisibility
     publishDate?: Date | string | null
+    endDate?: Date | string | null
+    partnership?: string | null
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -7581,6 +7629,8 @@ export namespace Prisma {
     status?: EnumNewsStatusFieldUpdateOperationsInput | $Enums.NewsStatus
     visibility?: EnumNewsVisibilityFieldUpdateOperationsInput | $Enums.NewsVisibility
     publishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    partnership?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -7598,6 +7648,8 @@ export namespace Prisma {
     status?: EnumNewsStatusFieldUpdateOperationsInput | $Enums.NewsStatus
     visibility?: EnumNewsVisibilityFieldUpdateOperationsInput | $Enums.NewsVisibility
     publishDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    endDate?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    partnership?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -8088,6 +8140,8 @@ export namespace Prisma {
     status?: SortOrder
     visibility?: SortOrder
     publishDate?: SortOrder
+    endDate?: SortOrder
+    partnership?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8103,6 +8157,8 @@ export namespace Prisma {
     status?: SortOrder
     visibility?: SortOrder
     publishDate?: SortOrder
+    endDate?: SortOrder
+    partnership?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -8118,6 +8174,8 @@ export namespace Prisma {
     status?: SortOrder
     visibility?: SortOrder
     publishDate?: SortOrder
+    endDate?: SortOrder
+    partnership?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }

@@ -29,7 +29,7 @@ exports.createNewsSchema = zod_1.z.object({
     content: zod_1.z.string().min(1, "Konten berita wajib diisi").trim(),
     summary: zod_1.z
         .string()
-        .max(1000, "Summary maksimal 1000 karakter")
+        .max(300, "Summary maksimal 300 karakter")
         .trim()
         .optional(),
     category: zod_1.z
@@ -61,10 +61,7 @@ exports.createNewsSchema = zod_1.z.object({
         .string()
         .optional()
         .transform((val) => (val ? new Date(val) : null)),
-    partnership: zod_1.z
-        .string()
-        .trim()
-        .optional(),
+    partnership: zod_1.z.string().trim().optional(),
 });
 exports.updateNewsSchema = exports.createNewsSchema.partial();
 exports.newsQuerySchema = zod_1.z.object({

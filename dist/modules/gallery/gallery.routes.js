@@ -1,0 +1,22 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const prisma_1 = require("@/lib/prisma");
+const gallery_repository_1 = require("./gallery.repository");
+const gallery_service_1 = require("./gallery.service");
+const gallery_controller_1 = require("./gallery.controller");
+const upload_middleware_1 = require("@/middlewares/upload.middleware");
+const auth_middleware_1 = require("@/middlewares/auth.middleware");
+const upload = (0, upload_middleware_1.createUpload)("gallery", "gallery");
+const router = (0, express_1.Router)();
+const galleryRepository = new gallery_repository_1.GalleryRepository(prisma_1.prisma);
+const galleryService = new gallery_service_1.GalleryService(galleryRepository);
+const galleryController = new gallery_controller_1.GalleryController(galleryService);
+router.get("/", (req, res, next) => {
+    galleryController.getAll(req, res, next);
+});
+router.get("/:id", galleryController.getById);
+router.post("/", auth_middleware_1.authenticate, upload.single("image"), galleryController.create);
+router.patch("/:id", auth_middleware_1.authenticate, upload.single("image"), galleryController.update);
+router.delete("/:id", auth_middleware_1.authenticate, galleryController.delete);
+exports.default = router;

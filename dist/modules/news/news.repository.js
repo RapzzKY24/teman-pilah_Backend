@@ -64,18 +64,8 @@ class NewsRepository {
         const updateData = {};
         if (data.title !== undefined)
             updateData.title = data.title;
-        if (data.slug !== undefined) {
-            const existingSlug = await this.prisma.news.findFirst({
-                where: {
-                    slug: data.slug,
-                    id: { not: id },
-                },
-            });
-            if (existingSlug) {
-                throw new error_middleware_1.AppError("Slug sudah digunakan, gunakan slug lain", 400);
-            }
+        if (data.slug !== undefined)
             updateData.slug = data.slug;
-        }
         if (data.content !== undefined)
             updateData.content = data.content;
         if (data.summary !== undefined)

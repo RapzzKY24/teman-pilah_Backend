@@ -57,18 +57,8 @@ class EducationRepository {
         const updateData = {};
         if (data.title !== undefined)
             updateData.title = data.title;
-        if (data.slug !== undefined) {
-            const existingSlug = await this.prisma.educationContent.findFirst({
-                where: {
-                    slug: data.slug,
-                    id: { not: id },
-                },
-            });
-            if (existingSlug) {
-                throw new error_middleware_1.AppError("Slug sudah digunakan, gunakan slug lain", 400);
-            }
+        if (data.slug !== undefined)
             updateData.slug = data.slug;
-        }
         if (data.overview !== undefined)
             updateData.overview = data.overview;
         if (data.description !== undefined)

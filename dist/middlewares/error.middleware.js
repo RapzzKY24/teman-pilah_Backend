@@ -12,9 +12,8 @@ class AppError extends Error {
 }
 exports.AppError = AppError;
 const errorHandler = (err, req, res, next) => {
-    if (err instanceof zod_1.ZodError || err.name === "ZodError" || err.name === "ZodError") {
-        const issues = err.issues || err.errors || [];
-        const errorMessages = issues.map((e) => e.message).join(", ");
+    if (err instanceof zod_1.ZodError) {
+        const errorMessages = err.errors.map((e) => e.message).join(", ");
         res.status(400).json({
             status: "error",
             message: errorMessages,

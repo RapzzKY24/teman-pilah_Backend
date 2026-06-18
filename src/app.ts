@@ -9,13 +9,12 @@ import { errorHandler } from "./middlewares/error.middleware";
 const app: Application = express();
 
 app.use(helmet({ crossOriginResourcePolicy: { policy: "cross-origin" } }));
-app.use(
-  cors({
-    origin: process.env.CLIENT_URL ?? "*",
-    methods: ["GET", "POST", "PATCH", "DELETE"],
-    credentials: true,
-  }),
-);
+app.use(cors({
+  origin: [process.env.CLIENT_URL ?? "*", "https://temanpilah.com", "https://www.temanpilah.com"],
+  methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+}));
 
 app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 
